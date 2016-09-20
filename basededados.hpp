@@ -12,15 +12,17 @@
 #include <stdio.h> // PARA USAR O REMOVE();
 #include <dirent.h>
 #include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
-#include "analise.hpp"
+//#include "analise.hpp"
 //#include "basededados.hpp"
-#include "busca.hpp"
+//#include "busca.hpp"
+
+#define MAX_TAM 100
 
 using namespace std;
 
 bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]);
-bool BD_InserirArquivos(ListaGestao bd, char nomeArquivo[MAX_TAM]);
-bool BD_RemoverArquivos(ListaGestao bd, char nomeArquivo[MAX_TAM]);
-void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd);
+bool InserirArquivos(char nomeArquivo[]);
+bool RemoverArquivos(string arquivo);
+//void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd);
 
 #endif
