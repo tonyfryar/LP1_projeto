@@ -9,11 +9,9 @@
 #include <stdio.h> // PARA USAR O REMOVE();
 #include <dirent.h>
 #include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
-#include "analise.hpp"
+//#include "analise.hpp"
 #include "basededados.hpp"
-#include "busca.hpp"
-
-#define MAX_TAM 100
+//#include "busca.hpp"
 
 using namespace std;
 
@@ -53,7 +51,7 @@ int main(int argc, char* argv[]){
             }
             if(VerificarOpcoes(palavras)){
                 for(int i=0; i<argc-2;i++){
-                    BD_InserirArquivos(bd,palavras[i]); 
+                    InserirArquivos(palavras[i]); 
                 }
             }     
         }
@@ -63,12 +61,12 @@ int main(int argc, char* argv[]){
             cout << "Opção requer argumento(s)" << endl;
         }
         else{
-            for(int i =2;i<argc;i++){
-                BD_RemoverArquivos(bd, argv[i]);
+            for(int i=2;i<argc;i++){
+                RemoverArquivos(argv[i]);
             } 
         }
     }
-    if(strcmp(argv[1],"-la")==0){
+/*    if(strcmp(argv[1],"-la")==0){
         BD_ListarArquivos(Lexico,bd);
     }
     if(strcmp(argv[1],"-OR")==0){
@@ -95,6 +93,6 @@ int main(int argc, char* argv[]){
             if(VerificarOpcoes(palavras)){
             	BD_BuscarPalavras(bd,palavras, argc, tipo, 0);
             }
-        }
+        }*/
     return 0;
 }
