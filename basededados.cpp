@@ -1,4 +1,4 @@
-//baseDeDados.cpp
+//basededados.cpp
 //Tony
 
 #include <iostream>
@@ -9,9 +9,9 @@
 #include <stdio.h> // PARA USAR O REMOVE();
 #include <dirent.h>
 #include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
-#include "analise.hpp"
+//#include "analise.hpp"
 #include "basededados.hpp"
-#include "busca.hpp"
+//#include "busca.hpp"
 
 using namespace std;
 
@@ -21,12 +21,12 @@ using namespace std;
  *   @retorno >> retorna true se todas as operações forem válida, ou false se uma ou mais não forem.
  */
 bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]){
-    char op[9][9] = {"-i","-r","-li","-la","-ld","-bAND","-bOR","-tT","-tF"};
+    char op[4][4] = {"-i","-r","-la","-OR"};
     char h = '-';
     int j;
     
     for(int i=0; i<MAX_TAM; i++){
-       for(j=0; j<9; j++){
+       for(j=0; j<4; j++){
             if(strcmp(palavras[i],op[j])==0){
                 
                 cout <<"\t>> ERRO! - Conflito de operações: \"" <<op[j]<<"\"" << endl;
@@ -44,72 +44,74 @@ bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]){
 }
 /*
  *   Função que insere um arquivo na Base de Dados.
- *   @param bd >> recebe a ListaGestao contendo a Base de Dados.
- *   @param nomeArquivo >> recebe a string com o nome do texto a ser incluído na Base de Dados.
+ *   @param nomeArquivo >> recebe a char com o nome do texto a ser incluído na Base de Dados.
  *   @retorno >> retorna true se o texto for incluído na Base de Dados com sucesso, ou false se não for.
  */  
-bool BD_InserirArquivos(ListaGestao bd, char nomeArquivo[MAX_TAM]){
-    
-    if(VerificarArquivoTxt(nomeArquivo)==false){
-        
-        if(strcmp(nomeArquivo,"BD_Arquivos.txt")==0){
-            cout << "\t>> ERRO! - Nao é permitido inserir a base de dados!" << endl;
-            return false;
-        }
-        cout << "\t>> ERRO! - Arquivo \""<<nomeArquivo<<"\" nao permitido (somente arquivos .txt)" << endl;    
-        return false;
-    }
-        
-    int retorno;
-    NoGestao no = CriarNoGestao(nomeArquivo);
-     
-    no->tabela = BD_CriarTabelaPalavras(nomeArquivo);
-    no->qtd_palavras = ContadorPalavras(no->tabela);
-    
-    
-   
-    if(no->tabela == NULL){
-        cout << "\t>> Arquivo \""<<nomeArquivo<<"\" nao foi encontrado no caminho." << endl;
-        return false;
-    }
-    else{
-        retorno = LIS_InserirFimGestao(bd,no);
+bool InserirArquivos(char nomeArquivo[]){
+	string vetor[100];
+	int tam;
+	ifstream infile;
+	infile.open("basededados.txt");
 
-        switch(retorno){
-        	case 1:
-        	cout << "\t>> Arquivo \"" << nomeArquivo << "\" já estava na base de buscas" << endl << "\tSeu registro foi atualizado." << endl;
-            break;
-            case 0:
-            cout << "\t>> Arquivo \""<<nomeArquivo<<"\" inserido na base de buscas." << endl;
-            break;
-            default:
-            cout << "\t>> ERRO! = Arquivo \""<<nomeArquivo<<"\" não Inserido" << endl;
-            break;
-        }
-    
-        return true;
-    }
+	if (infile.is_open()){
+		for (tam = 0; infile >> vetor[tam]; tam++);
+		infile.close();
+	}
+	for (int ii; ii < tam; ii++){
+		if (vetor[ii].compare(nomeArquivo) == 0){
+			cout << "Arquivo " << vetor[ii] << " já existe!" << endl;
+			return false;
+		}
+	}
+	vetor[tam++] = nomeArquivo;
+
+	ofstream outfile;
+	outfile.open("basededados.txt", ofstream::app);
+	if (outfile.is_open())
+		outfile << vetor[tam-1] << endl;
+
+	cout << "Arquivo " << vetor[tam-1] << " inserido!" << endl;	
+	outfile.close();
 }
 /*
  *   Função que remove um arquivo da Base de Dados.
- *   @param bd >> recebe a ListaGestao com a Base de Dados.
- *   @param nomeArquivo >> recebe a string com o nome do arquivo a ser removido da Base de Dados.
+ *   @param arquivo >> recebe a string com o nome do arquivo a ser removido da Base de Dados.
  *   @retorno >> retorna true se o texto for removido da Base de Dados com sucesso, ou false se não for.
  */  
-bool BD_RemoverArquivos(ListaGestao bd, char nomeArquivo[MAX_TAM]){
+bool RemoverArquivos(string arquivo){
+	string vetor[100];
+	int tam;
+	ifstream infile;
+	infile.open("basededados.txt");
 
-    if(LIS_RemoverGestao(bd, nomeArquivo) < 0){
-    	cout << "\t>> Arquivo \""<< nomeArquivo <<"\" não estava na base de buscas." << endl;
-    }
-    else{
-        cout << "\t>> Arquivo \""<< nomeArquivo << "\" removido da base de buscas" << endl;
-    }        
+	if (infile.is_open())
+		for (tam = 0; infile >> vetor[tam]; tam++);
+
+	infile.close();
+
+	for (int ii = 0; ii < tam; ii++){
+		if (vetor[ii].compare(arquivo) == 0){
+			ofstream outfile;
+			outfile.open("basededados.txt");
+
+			if (outfile.is_open()){
+				for (int jj = 0; jj < tam; jj++){
+					if (jj != ii)
+						outfile << vetor[jj] << endl;
+				}
+				cout << "Arquivo " << vetor[ii] << " removido!" << endl;
+				outfile.close();
+				return true;
+			}
+		}	
+	}
+	cout << "Arquivo não existe na Base de Dados" << endl;  
 }
 /*
  *   Função que recebe por ponteiro de função, uma função que ordenará os arquivos da Base de Dados.  
  *   @param  *função >> recebe uma das funções acima: Inserção, Lexico, Decrescente;
  *   @retorno >> não possui return (void).
- */ 
+  
 void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd){
     
     if(bd->tamanho >0){
@@ -120,4 +122,4 @@ void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd){
     else{
     	cout << "\t>> ERRO! - Base de dados vazia." << endl; 
     }    
-}
+}*/
