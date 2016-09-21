@@ -111,15 +111,50 @@ bool RemoverArquivos(string arquivo){
  *   Função que recebe por ponteiro de função, uma função que ordenará os arquivos da Base de Dados.  
  *   @param  *função >> recebe uma das funções acima: Inserção, Lexico, Decrescente;
  *   @retorno >> não possui return (void).
-  
-void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd){
-    
-    if(bd->tamanho >0){
-    	cout << "\t>> Arquivos contidos na base de buscas:" << endl;
-      
-    	funcao(bd);    
+ */
+void ListarArquivos(){
+    	ifstream infile;
+        infile.open("basededados.txt");
+
+
+        if (!infile.is_open()){
+            cout << "Arquivo não encotrado" << endl;
+        }
+        
+        else{
+            int ii;
+            string palavras[100];
+            
+            for(ii=0; infile >> palavras[ii]; ii++)
+            	//cout << palavras[ii] << endl;
+
+            insertionSort(palavras, ii, 0);
+            //quickSort(palavras, ii, 0);
+            //ordenaTexto( palavras, ii, 0, selecionaFuncao(1));
+            //ordenaTexto(palavras, ii, 0, pFuncao);
+
+            ofstream outfile;
+            outfile.open("basededados.txt");
+
+            for(int jj=0; jj <= ii; jj++)
+                outfile << palavras[jj] << endl;
+        }  
+}
+/*
+Insertion Sort
+*/
+void insertionSort(string vetor[], int fim, int inicio){
+    int ii, jj; 
+    string chave;
+
+    for (ii = 1; ii <= fim; ii++){
+        chave = vetor[ii];
+        jj = ii - 1;
+
+        while ((jj >= 0) && (chave.compare(vetor[jj]) < 0)){
+            vetor[jj + 1] = vetor[jj];
+            jj = jj - 1;
+        }
+        vetor[jj + 1] = chave;
     }
-    else{
-    	cout << "\t>> ERRO! - Base de dados vazia." << endl; 
-    }    
-}*/
+}
