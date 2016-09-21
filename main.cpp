@@ -66,8 +66,8 @@ int main(int argc, char* argv[]){
             } 
         }
     }
-/*    if(strcmp(argv[1],"-la")==0){
-        BD_ListarArquivos(Lexico,bd);
+    if(strcmp(argv[1],"-la")==0){
+    	ListarArquivos();
     }
     if(strcmp(argv[1],"-OR")==0){
         int j=0;
@@ -93,6 +93,6 @@ int main(int argc, char* argv[]){
             if(VerificarOpcoes(palavras)){
             	BD_BuscarPalavras(bd,palavras, argc, tipo, 0);
             }
-        }*/
+        }
     return 0;
 }
