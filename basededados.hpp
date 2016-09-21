@@ -23,6 +23,8 @@ using namespace std;
 bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]);
 bool InserirArquivos(char nomeArquivo[]);
 bool RemoverArquivos(string arquivo);
-//void BD_ListarArquivos(void (*funcao)(ListaGestao),ListaGestao bd);
+void ListarArquivos();
+
+void insertionSort(string vetor[], int fim, int inicio);
 
 #endif
