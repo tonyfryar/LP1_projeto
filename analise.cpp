@@ -1,2 +1,0 @@
-//analise.cpp
-//Tony
