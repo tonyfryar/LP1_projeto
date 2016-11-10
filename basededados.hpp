@@ -12,19 +12,43 @@
 #include <stdio.h> // PARA USAR O REMOVE();
 #include <dirent.h>
 #include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
-//#include "analise.hpp"
-//#include "basededados.hpp"
 //#include "busca.hpp"
 
 #define MAX_TAM 100
-
 using namespace std;
 
-bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]);
-bool InserirArquivos(char nomeArquivo[]);
-bool RemoverArquivos(string arquivo);
-void ListarArquivos();
+/*struct palavras
+{
+	string palavra;
+	struct no* primieroNoDaLista;
+};
 
+struct no
+{
+	string nomeDoArquivo;
+	int linhaDaPalNoArq;
+	struct no* proximoNo;
+};
+*/
+typedef struct arquivo
+{
+	string nomeDoArquivo;
+	int qtdDePalDoArq;	
+} arquivo; 
+
+
+/*no criarNo();
+palavra criarPalavras();
+*/
+
+//bool VerificarOpcoes(char palavras[MAX_TAM][MAX_TAM]);
+bool InserirArquivos(char *nomeArquivo);
+bool RemoverArquivos(string arquivo);
+void ListarOrdemAlfabetica();
+void ListarOrdemInsercao();
+void ListarOrdemDecrescenteDePalavras();
 void insertionSort(string vetor[], int fim, int inicio);
+void insertionSort(arquivo vetor[], int fim, int inicio);
+int contadorDePalavras(char* nomeArquivo);
 
 #endif
