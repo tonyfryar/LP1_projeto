@@ -11,17 +11,15 @@
 #include <fstream>
 #include <stdio.h> // PARA USAR O REMOVE();
 #include <dirent.h>
-#include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
-#include "analise.hpp"
-#include "basededados.hpp"
-//#include "busca.hpp"
+//#include <sys/time.h> // PARA USAR O gettimeofday() (MEDIDOR DE TEMPO)
+#include <chrono>
+//#include "basededados.hpp"
 
 using namespace std;
+using namespace std::chrono;
 
-int busca_sequencial_ite(int chave, int vetor[], int tamanho);
-int busca_sequencial_rec(int chave, int vetor[], int tamanho);
+void BuscarPalavraNoArquivo(string, string);
+void BuscarPalavra(string palavra);
 
-bool BD_BuscarPalavras(ListaGestao bd, char palavras[MAX_TAM][MAX_TAM], int argc,int tipo, int impTempo);
-bool BD_BuscarPalavras(ListaGestao bd, char palavras[MAX_TAM][MAX_TAM], int argc,int tipo, int impTempo, char impDec);
 
 #endif
